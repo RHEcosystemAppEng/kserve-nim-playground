@@ -1,52 +1,56 @@
 # Compare KServe Deployment Types
 
-- [Knative](#knative)
+- [Serverless](#serverless)
 - [Raw](#raw)
 
-## KNative
+## Serverless
 
 ```shell
-$ k apply -k deployment-types/knative
+$ k apply -k deployment-types/serverless
 
-namespace/tomer-playground-knative created
+namespace/tomer-playground-serverless created
 servingruntime.serving.kserve.io/kserve-sklearnserver created
-inferenceservice.serving.kserve.io/sklearn-iris-knative created
+inferenceservice.serving.kserve.io/sklearn-iris-serverless created
 ```
 
 ```shell
-$ k get all -n tomer-playground-knative -o name
+$ k get all -n tomer-playground-serverless -o name
 
-pod/sklearn-iris-knative-predictor-00001-deployment-7c5664cc85x4gkb
-service/sklearn-iris-knative
-service/sklearn-iris-knative-metrics
-service/sklearn-iris-knative-predictor
-service/sklearn-iris-knative-predictor-00001
-service/sklearn-iris-knative-predictor-00001-private
-deployment.apps/sklearn-iris-knative-predictor-00001-deployment
-replicaset.apps/sklearn-iris-knative-predictor-00001-deployment-7c5664cc85
-service.serving.knative.dev/sklearn-iris-knative-predictor
-route.serving.knative.dev/sklearn-iris-knative-predictor
-configuration.serving.knative.dev/sklearn-iris-knative-predictor
-revision.serving.knative.dev/sklearn-iris-knative-predictor-00001
+pod/sklearn-iris-serverless-predictor-00001-deployment-b4f977d4b9sp
+service/sklearn-iris-serverless-predictor-00001
+service/sklearn-iris-serverless-predictor-00001-private
+deployment.apps/sklearn-iris-serverless-predictor-00001-deployment
+replicaset.apps/sklearn-iris-serverless-predictor-00001-deployment-b4f977d77
+revision.serving.knative.dev/sklearn-iris-serverless-predictor-00001
+route.serving.knative.dev/sklearn-iris-serverless-predictor
+service.serving.knative.dev/sklearn-iris-serverless-predictor
+configuration.serving.knative.dev/sklearn-iris-serverless-predictor
+
 ```
 
 ```shell
-$ k get deployment -n tomer-playground-knative sklearn-iris-knative-predictor-00001-deployment  -o yaml | yq '.metadata.ownerReferences.0'
+$ k get deployment -n tomer-playground-serverless sklearn-iris-serverless-predictor-00001-deployment  -o yaml | yq '.metadata.ownerReferences.0'
 
 apiVersion: serving.knative.dev/v1
 blockOwnerDeletion: true
 controller: true
 kind: Revision
-name: sklearn-iris-knative-predictor-00001
-uid: 6c17378b-e0c6-4e8b-8afb-f0c37b23bd14
+name: sklearn-iris-serverless-predictor-00001
+uid: 4492d7b0-a05f-4620-9cc5-c27ac66563a6
 ```
 
 ```shell
-$ modelurl=$(k get inferenceservices -n tomer-playground-knative sklearn-iris-knative --no-headers | awk '{ print $2 }') && \
-curl -sk $modelurl/v2/models/sklearn-iris-knative/ready | jq
+$ k wait inferenceservices -n tomer-playground-serverless sklearn-iris-serverless --for condition=Ready
+
+inferenceservice.serving.kserve.io/sklearn-iris-serverless condition met
+```
+
+```shell
+$ modelurl=$(k get inferenceservices -n tomer-playground-serverless sklearn-iris-serverless --no-headers | awk '{ print $2 }') && \
+curl -sk $modelurl/v2/models/sklearn-iris-serverless/ready | jq
 
 {
-  "name": "sklearn-iris-knative",
+  "name": "sklearn-iris-serverless",
   "ready": true
 }
 ```
@@ -84,11 +88,17 @@ uid: 20f09438-638b-445e-ad1f-3ebd7df458f2
 ```
 
 ```shell
-# from a different terminal
+$ k wait inferenceservices -n tomer-playground-raw sklearn-iris-raw --for condition=Ready
+
+inferenceservice.serving.kserve.io/sklearn-iris-raw condition met
+```
+
+
+```shell
 $ k port-forward -n tomer-playground-raw services/sklearn-iris-raw-predictor 4321:80
 
-# from current terminal
-$ curl -sk http://localhost/v2/models/sklearn-iris-raw/ready | jq
+# from a different terminal
+$ curl -sk http://localhost:4321/v2/models/sklearn-iris-raw/ready | jq
 
 {
   "name": "sklearn-iris-raw",

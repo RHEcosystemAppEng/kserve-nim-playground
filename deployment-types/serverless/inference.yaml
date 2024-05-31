@@ -1,10 +1,8 @@
 apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
-  name: sklearn-iris-raw
+  name: sklearn-iris-serverless
   namespace: ns
-  annotations:
-    serving.kserve.io/deploymentMode: RawDeployment
 spec:
   predictor:
     model:
