@@ -1,0 +1,23 @@
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+namespace: tomer-playground-no-cache
+
+# ngc.env has two keys: HF_TOKEN and NGC_API_KEY
+# ngcdockerconfig.json has the ngc-api-key as the password for nvcr.io
+secretGenerator:
+- envs:
+  - ngc.env
+  name: nvidia-nim-secrets
+  options:
+    disableNameSuffixHash: true
+- files:
+  - .dockerconfigjson=ngcdockerconfig.json
+  name: ngc-secret
+  options:
+    disableNameSuffixHash: true
+  type: kubernetes.io/dockerconfigjson
+
+resources:
+- namespace.yaml
+- runtime.yaml
+- inference.yaml

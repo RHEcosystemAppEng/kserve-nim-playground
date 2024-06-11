@@ -112,7 +112,6 @@ $ k wait inferenceservices -n tomer-playground-raw sklearn-iris-raw --for condit
 inferenceservice.serving.kserve.io/sklearn-iris-raw condition met
 ```
 
-
 ```shell
 $ k port-forward -n tomer-playground-raw services/sklearn-iris-raw-predictor 4321:80
 
