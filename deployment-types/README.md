@@ -60,6 +60,15 @@ curl -sk $modelurl/v2/models/sklearn-iris-serverless/ready | jq
 }
 ```
 
+```shell
+# cleanup
+$ k delete -k deployment-types/serverless
+
+namespace/tomer-playground-serverless deleted
+servingruntime.serving.kserve.io/kserve-sklearnserver deleted
+inferenceservice.serving.kserve.io/sklearn-iris-serverless deleted
+```
+
 ## Raw
 
 ```shell
@@ -114,4 +123,13 @@ $ curl -sk http://localhost:4321/v2/models/sklearn-iris-raw/ready | jq
   "name": "sklearn-iris-raw",
   "ready": true
 }
+```
+
+```shell
+# cleanup
+$ k delete -k deployment-types/raw
+
+namespace/tomer-playground-raw deleted
+servingruntime.serving.kserve.io/kserve-sklearnserver deleted
+inferenceservice.serving.kserve.io/sklearn-iris-raw deleted
 ```
