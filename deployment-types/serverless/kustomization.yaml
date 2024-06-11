@@ -4,5 +4,5 @@ namespace: tomer-playground-serverless
 
 resources:
   - namespace.yaml
-  - ../../runtimes
+  - runtime.yaml
   - inference.yaml
