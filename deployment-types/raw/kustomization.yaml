@@ -3,16 +3,16 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 namespace: tomer-playground-raw
 
 resources:
-  - ../serverless
+- ../serverless
 
 patches:
-  - target:
-      kind: InferenceService
-    patch: |
-      - op: replace
-        path: /metadata/name
-        value: sklearn-iris-raw
-      - op: add
-        path: /metadata/annotations
-        value:
-          serving.kserve.io/deploymentMode: RawDeployment
+- patch: |
+    - op: replace
+      path: /metadata/name
+      value: sklearn-iris-raw
+    - op: add
+      path: /metadata/annotations
+      value:
+        serving.kserve.io/deploymentMode: RawDeployment
+  target:
+    kind: InferenceService

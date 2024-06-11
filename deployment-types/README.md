@@ -6,6 +6,11 @@
 ## Serverless
 
 ```shell
+# set your own namespace for testing
+(cd deployment-types/serverless && kustomize edit set namespace tomer-playground-serverless)
+```
+
+```shell
 $ k apply -k deployment-types/serverless
 
 namespace/tomer-playground-serverless created
@@ -56,6 +61,11 @@ curl -sk $modelurl/v2/models/sklearn-iris-serverless/ready | jq
 ```
 
 ## Raw
+
+```shell
+# set your own namespace for testing
+(cd deployment-types/raw && kustomize edit set namespace tomer-playground-raw)
+```
 
 ```shell
 $ k apply -k deployment-types/raw
