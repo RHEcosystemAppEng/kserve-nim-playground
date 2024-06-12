@@ -2,7 +2,7 @@ kind: Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 namespace: tomer-playground-no-cache
 
-# ngc.env has two keys: HF_TOKEN and NGC_API_KEY
+# ngc.env a key NGC_API_KEY
 # ngcdockerconfig.json has the ngc-api-key as the password for nvcr.io
 secretGenerator:
 - envs:

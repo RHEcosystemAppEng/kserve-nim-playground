@@ -2,15 +2,13 @@
 
 ## Prerequisites
 
-Before proceeding, grab your _NGC API Key_ and _HF Token_, and create the following two secret
-data files (git-ignored):
+Before proceeding, grab your _NGC API Key_ and create the following two secret data files (git-ignored):
 
 > The files are saved in the _no-cache_ scenario folder but are used by all scenarios in this context.
 
 ```shell
 # the following will be used in an opaque secret mounted into the runtime
-echo "HF_TOKEN=secrethftokengoeshere
-NGC_API_KEY=ngcapikeygoeshere" > persistence-and-caching/no-cache/ngc.env
+echo "NGC_API_KEY=ngcapikeygoeshere" > persistence-and-caching/no-cache/ngc.env
 ```
 
 ```shell
@@ -150,6 +148,7 @@ desiredScale: 2
 
 ```shell
 # check the download time in the SECOND pod; don't forget to use the correct pod name from your environment
+# this might take a couple of minutes for that log line to be found, depending on the download time
 $ pod=llama3-8b-instruct-1xgpu-predictor-00001-deployment-548c9bgwvzp && \
 k logs -n tomer-playground-no-cache $pod kserve-container | grep 'Model workspace is now ready'
 
