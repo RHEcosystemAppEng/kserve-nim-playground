@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Before proceeding, grab your _NGC Token Key_ and _HF Token_, and create the following two secret
+Before proceeding, grab your _NGC API Key_ and _HF Token_, and create the following two secret
 data files (git-ignored):
 
 > The files are saved in the _no-cache_ scenario folder but are used by all scenarios in this context.
