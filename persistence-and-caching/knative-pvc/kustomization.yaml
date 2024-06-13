@@ -1,0 +1,26 @@
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+namespace: tomer-playground-knative-pvc
+
+resources:
+- ../no-cache
+- pvc.yaml
+
+patches:
+- patch: |
+    - op: add
+      path: /spec/volumes/-
+      value:
+        name: nim-pvc
+        persistentVolumeClaim:
+          claimName: nim-pvc
+    - op: add
+      path: /spec/containers/0/volumeMounts/-
+      value:
+        mountPath: /mnt/nim/models
+        name: nim-pvc
+    - op: replace
+      path: /spec/containers/0/env/0/value
+      value: /mnt/nim/models
+  target:
+    kind: ServingRuntime
