@@ -2,11 +2,11 @@
 
 ```shell
 # OPTIONAL: set your own namespace for testing
-(cd deployment-types/serverless && kustomize edit set namespace kserve-playground-serverless)
+(cd pocs/deployment-types/serverless && kustomize edit set namespace kserve-playground-serverless)
 ```
 
 ```shell
-$ k apply -k deployment-types/serverless
+$ k apply -k pocs/deployment-types/serverless
 
 namespace/kserve-playground-serverless created
 servingruntime.serving.kserve.io/kserve-sklearnserver created
@@ -16,16 +16,16 @@ inferenceservice.serving.kserve.io/sklearn-iris-serverless created
 ```shell
 $ k get all -n kserve-playground-serverless -o name
 
-pod/sklearn-iris-serverless-predictor-00001-deployment-b4f977d4b9sp
+pod/sklearn-iris-serverless-predictor-00001-deployment-556697f99fhm
+service/sklearn-iris-serverless-metrics
 service/sklearn-iris-serverless-predictor-00001
 service/sklearn-iris-serverless-predictor-00001-private
 deployment.apps/sklearn-iris-serverless-predictor-00001-deployment
-replicaset.apps/sklearn-iris-serverless-predictor-00001-deployment-b4f977d77
-revision.serving.knative.dev/sklearn-iris-serverless-predictor-00001
-route.serving.knative.dev/sklearn-iris-serverless-predictor
+replicaset.apps/sklearn-iris-serverless-predictor-00001-deployment-556697f75
 service.serving.knative.dev/sklearn-iris-serverless-predictor
+route.serving.knative.dev/sklearn-iris-serverless-predictor
+revision.serving.knative.dev/sklearn-iris-serverless-predictor-00001
 configuration.serving.knative.dev/sklearn-iris-serverless-predictor
-
 ```
 
 ```shell
@@ -36,11 +36,11 @@ blockOwnerDeletion: true
 controller: true
 kind: Revision
 name: sklearn-iris-serverless-predictor-00001
-uid: 4492d7b0-a05f-4620-9cc5-c27ac66563a6
+uid: 13da2ae0-5c60-4a2f-b82b-fae26a820875
 ```
 
 ```shell
-$ k wait inferenceservices -n kserve-playground-serverless sklearn-iris-serverless --for condition=Ready
+$ k wait inferenceservices -n kserve-playground-serverless sklearn-iris-serverless --for condition=Ready --timeout 200s
 
 inferenceservice.serving.kserve.io/sklearn-iris-serverless condition met
 ```
@@ -57,7 +57,7 @@ curl -sk $modelurl/v2/models/sklearn-iris-serverless/ready | jq
 
 ```shell
 # cleanup, might take a couple of minutes
-$ k delete -k deployment-types/serverless
+$ k delete -k pocs/deployment-types/serverless
 
 namespace/kserve-playground-serverless deleted
 servingruntime.serving.kserve.io/kserve-sklearnserver deleted

@@ -2,11 +2,11 @@
 
 ```shell
 # OPTIONAL: set your own namespace for testing
-(cd deployment-types/raw && kustomize edit set namespace kserve-playground-raw)
+(cd pocs/deployment-types/raw && kustomize edit set namespace kserve-playground-raw)
 ```
 
 ```shell
-$ k apply -k deployment-types/raw
+$ k apply -k pocs/deployment-types/raw
 
 namespace/kserve-playground-raw created
 servingruntime.serving.kserve.io/kserve-sklearnserver created
@@ -16,11 +16,10 @@ inferenceservice.serving.kserve.io/sklearn-iris-raw created
 ```shell
 $ k get all -n kserve-playground-raw -o name
 
-pod/sklearn-iris-raw-predictor-7fff956f8b-mf7m2
-service/sklearn-iris-raw-metrics
+pod/sklearn-iris-raw-predictor-75587fd559-s52vn
 service/sklearn-iris-raw-predictor
 deployment.apps/sklearn-iris-raw-predictor
-replicaset.apps/sklearn-iris-raw-predictor-7fff956f8b
+replicaset.apps/sklearn-iris-raw-predictor-75587fd559
 horizontalpodautoscaler.autoscaling/sklearn-iris-raw-predictor
 ```
 
@@ -32,11 +31,11 @@ blockOwnerDeletion: true
 controller: true
 kind: InferenceService
 name: sklearn-iris-raw
-uid: 20f09438-638b-445e-ad1f-3ebd7df458f2
+uid: 2431c293-7b64-4d65-be26-15bcde9bad5c
 ```
 
 ```shell
-$ k wait inferenceservices -n kserve-playground-raw sklearn-iris-raw --for condition=Ready
+$ k wait inferenceservices -n kserve-playground-raw sklearn-iris-raw --for condition=Ready --timeout 200s
 
 inferenceservice.serving.kserve.io/sklearn-iris-raw condition met
 ```
@@ -55,9 +54,9 @@ $ curl -sk http://localhost:4321/v2/models/sklearn-iris-raw/ready | jq
 
 ```shell
 # cleanup
-$ k delete -k deployment-types/raw
+$ k delete -k pocs/deployment-types/raw
 
-namespace/kserve-playground-raw deleted
-servingruntime.serving.kserve.io/kserve-sklearnserver deleted
-inferenceservice.serving.kserve.io/sklearn-iris-raw deleted
+namespace "kserve-playground-raw" deleted
+servingruntime.serving.kserve.io "kserve-sklearnserver" deleted
+inferenceservice.serving.kserve.io "sklearn-iris-raw" deleted
 ```
