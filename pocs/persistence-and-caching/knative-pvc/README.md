@@ -2,12 +2,12 @@
 
 ```shell
 # OPTIONAL: set your namespace for testing
-(cd persistence-and-caching/knative-pvc && kustomize edit set namespace kserve-nim-playground-knative-pvc)
+(cd pocs/persistence-and-caching/knative-pvc && kustomize edit set namespace kserve-nim-playground-knative-pvc)
 ```
 
 ```shell
 # apply the required resources
-$ k apply -k persistence-and-caching/knative-pvc
+$ k apply -k pocs/persistence-and-caching/knative-pvc
 
 namespace/kserve-nim-playground-knative-pvc created
 secret/ngc-secret created
@@ -144,7 +144,7 @@ INFO 06-13 22:46:26.884 ngc_injector.py:172] Model workspace is now ready. It to
 
 ```shell
 # cleanup - this might take a couple of minutes
-$ k delete -k persistence-and-caching/knative-pvc
+$ k delete -k pocs/persistence-and-caching/knative-pvc
 
 namespace "kserve-nim-playground-knative-pvc" deleted
 secret "ngc-secret" deleted

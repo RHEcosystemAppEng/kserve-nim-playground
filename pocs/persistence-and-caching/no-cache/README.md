@@ -2,12 +2,12 @@
 
 ```shell
 # OPTIONAL: set your namespace for testing
-(cd persistence-and-caching/no-cache && kustomize edit set namespace kserve-nim-playground-no-cache)
+(cd pocs/persistence-and-caching/no-cache && kustomize edit set namespace kserve-nim-playground-no-cache)
 ```
 
 ```shell
 # apply the required resources
-$ k apply -k persistence-and-caching/no-cache
+$ k apply -k pocs/persistence-and-caching/no-cache
 
 namespace/kserve-nim-playground-no-cache created
 secret/ngc-secret created
@@ -145,7 +145,7 @@ INFO 06-11 21:53:02.842 ngc_injector.py:172] Model workspace is now ready. It to
 
 ```shell
 # cleanup - this might take a couple of minutes
-$ k delete -k persistence-and-caching/no-cache
+$ k delete -k pocs/persistence-and-caching/no-cache
 
 namespace "kserve-nim-playground-no-cache" deleted
 secret "ngc-secret" deleted
