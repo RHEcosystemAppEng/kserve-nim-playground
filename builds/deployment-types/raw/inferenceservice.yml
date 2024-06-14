@@ -1,0 +1,15 @@
+---
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  annotations:
+    serving.kserve.io/deploymentMode: RawDeployment
+  name: sklearn-iris-raw
+  namespace: kserve-playground-raw
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: sklearn
+      runtime: kserve-sklearnserver
+      storageUri: gs://kfserving-examples/models/sklearn/1.0/model

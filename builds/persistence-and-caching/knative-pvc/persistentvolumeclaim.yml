@@ -1,12 +1,13 @@
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: nim-pvc
+  namespace: kserve-nim-playground-knative-pvc
 spec:
-#  storageClassName: ocs-storagecluster-cephfs
-  storageClassName: gp3-csi
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 50Gi
+  storageClassName: gp3-csi
