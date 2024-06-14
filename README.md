@@ -5,7 +5,6 @@ with the goal of integrating [Nvidia NIM][nim] into [Red Hat OpenShift AI][aoi].
 
 - The [pocs](pocs) folder hosts the various POC scenarios designed with [Kustomize][kustomize].
 - The [builds](builds) folder hosts built manifests from the above-mentioned _pocs_ for accessibility.
-  Minus namespaces and secrets.
 
 > All POC executions require [Red Hat OpenShift AI][aoi].
 

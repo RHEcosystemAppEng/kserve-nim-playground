@@ -6,7 +6,7 @@
 ###### Script for for creating manifest files from the kustomization builds.             ######
 ######                                                                                   ######
 ###### It requires yq and kustomize (and gsed for Mac users). It will not                ######
-###### save secrets or namespaces for privacy and brevity.                               ######
+###### save namespaces for brevity.                                                      ######
 ###### Run this script from the project's root, or use --pocs_folder and --builds_folder ######
 ###### for tweaking the working path.                                                    ######
 ###############################################################################################
@@ -45,10 +45,17 @@ do
   mkdir -p "$temp"
   # build kustomize manifests into temp folder
   kustomize build "$poc" > "$temp"/kustomize_manifests.yaml
-  # split manifests file to multiple files by kind-name (concatenate name if expects more than one of the same kind)
-  (cd "$temp" && yq -s '.kind | downcase' kustomize_manifests.yaml)
-  # remove secret files, namespaces, and original kustomize build
-  find "$temp" \( -regex '.*/secret.*.yml' -o -regex '.*/namespace.*.yml' -o -regex '.*kustomize_manifests.yaml' \) -delete
+  # split manifests file to multiple files by kind-name and current index (subtracting 1 because we delete namespaces so we're skipping 0)
+  (cd "$temp" && yq -s '($index - 1) + "_" + .kind | downcase' kustomize_manifests.yaml)
+  # remove namespaces, and original kustomize build
+  find "$temp" \( -regex '.*namespace.*.yml' -o -regex '.*kustomize_manifests.yaml' \) -delete
+  # mask secret values
+  for manifest in $temp/*; do
+    [[ "$manifest" == *"_secret"* ]] &&  yq -i '. |
+      select(.data | has("NGC_API_KEY")) |= .data.NGC_API_KEY = "bas64-ngc-api-key-goes-here" |
+      select(.data | has(".dockerconfigjson")) |= .data.".dockerconfigjson" = "base64-pull-config-for-nvcr.io-goes-here"
+      ' "$manifest"
+  done
 done < <(find "$pocs_folder" -type d -print0)
 
 # clean target build folder
