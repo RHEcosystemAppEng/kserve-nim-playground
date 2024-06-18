@@ -3,7 +3,7 @@ apiVersion: serving.kserve.io/v1alpha1
 kind: ServingRuntime
 metadata:
   name: kserve-sklearnserver
-  namespace: kserve-playground-serverless
+  namespace: kserve-play-serverless
 spec:
   annotations:
     prometheus.io/path: /metrics

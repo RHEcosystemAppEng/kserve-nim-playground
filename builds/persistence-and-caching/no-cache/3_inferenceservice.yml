@@ -5,7 +5,7 @@ metadata:
   annotations:
     autoscaling.knative.dev/target: "10"
   name: llama3-8b-instruct-1xgpu
-  namespace: kserve-nim-playground-no-cache
+  namespace: knim-no-cache
 spec:
   predictor:
     annotations:
@@ -15,7 +15,7 @@ spec:
       sidecar.istio.io/inject: "true"
       sidecar.istio.io/rewriteAppHTTPProbers: "true"
     maxReplicas: 2
-    minReplicas: 0
+    minReplicas: 1
     model:
       modelFormat:
         name: nvidia-nim-llama3-8b-instruct

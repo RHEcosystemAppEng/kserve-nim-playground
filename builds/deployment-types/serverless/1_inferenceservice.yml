@@ -3,7 +3,7 @@ apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
   name: sklearn-iris-serverless
-  namespace: kserve-playground-serverless
+  namespace: kserve-play-serverless
 spec:
   predictor:
     model:

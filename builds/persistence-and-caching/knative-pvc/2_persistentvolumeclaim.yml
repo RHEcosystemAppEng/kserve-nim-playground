@@ -3,7 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: nim-pvc
-  namespace: kserve-nim-playground-knative-pvc
+  namespace: knim-knative-pvc
 spec:
   accessModes:
     - ReadWriteOnce

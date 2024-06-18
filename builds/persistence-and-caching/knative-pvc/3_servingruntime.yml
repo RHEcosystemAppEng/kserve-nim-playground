@@ -3,7 +3,7 @@ apiVersion: serving.kserve.io/v1alpha1
 kind: ServingRuntime
 metadata:
   name: nvidia-nim-llama3-8b-instruct-1.0.0
-  namespace: kserve-nim-playground-knative-pvc
+  namespace: knim-knative-pvc
 spec:
   containers:
     - env:
