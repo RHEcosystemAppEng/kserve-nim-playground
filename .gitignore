@@ -2,3 +2,4 @@
 *.env
 *ngcdockerconfig.json
 *temp/
+.idea
