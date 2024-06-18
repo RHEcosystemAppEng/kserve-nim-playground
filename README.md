@@ -1,3 +1,5 @@
+# [TODO]
+- Alignment of annotations in CRs with Openshift AI annotations.
 # NIM KServe Playground
 
 This repository hosts example projects used for exploring [KServe][kserve] and [Nvidia NIM][nim]

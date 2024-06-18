@@ -8,8 +8,6 @@ spec:
   annotations:
     prometheus.kserve.io/path: /metrics
     prometheus.kserve.io/port: "8000"
-    serving.kserve.io/enable-metric-aggregation: "true"
-    serving.kserve.io/enable-prometheus-scraping: "true"
   containers:
     - env:
         - name: NIM_CACHE_PATH
