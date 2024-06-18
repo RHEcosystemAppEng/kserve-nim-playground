@@ -28,7 +28,7 @@ inferenceservice.serving.kserve.io/llama3-8b-instruct-1xgpu condition met
 $ k get pods -n knim-no-cache
 
 NAME                                                              READY   STATUS    RESTARTS   AGE
-llama3-8b-instruct-1xgpu-predictor-00001-deployment-548c9b6wxsm   3/3     Running   0          4m17s
+llama3-8b-instruct-1xgpu-predictor-00001-deployment-548c9b6wxsm   4/4     Running   0          4m17s
 ```
 
 ```shell
@@ -128,8 +128,8 @@ desiredScale: 2
 $ k get pods -n knim-no-cache
 
 NAME                                                              READY   STATUS    RESTARTS   AGE
-llama3-8b-instruct-1xgpu-predictor-00001-deployment-548c9bgwvzp   2/3     Running   0          15s
-llama3-8b-instruct-1xgpu-predictor-00001-deployment-548c9b6wxsm   3/3     Running   0          9m37s
+llama3-8b-instruct-1xgpu-predictor-00001-deployment-548c9bgwvzp   2/4     Running   0          15s
+llama3-8b-instruct-1xgpu-predictor-00001-deployment-548c9b6wxsm   4/4     Running   0          9m37s
 ```
 
 ```shell

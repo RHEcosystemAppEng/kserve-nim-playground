@@ -29,7 +29,7 @@ inferenceservice.serving.kserve.io/llama3-8b-instruct-1xgpu condition met
 $ k get pods -n knim-knative-pvc
 
 NAME                                                              READY   STATUS    RESTARTS   AGE
-llama3-8b-instruct-1xgpu-predictor-00001-deployment-5b589fpn92t   3/3     Running   0          3m56s
+llama3-8b-instruct-1xgpu-predictor-00001-deployment-5b589fpn92t   4/4     Running   0          3m56s
 ```
 
 ```shell
@@ -129,8 +129,8 @@ desiredScale: 2
 $ k get pods -n knim-knative-pvc
 
 NAME                                                              READY   STATUS    RESTARTS   AGE
-llama3-8b-instruct-1xgpu-predictor-00001-deployment-5b589fhldd4   1/3     Running   0          9s
-llama3-8b-instruct-1xgpu-predictor-00001-deployment-5b589fpn92t   3/3     Running   0          5m49s
+llama3-8b-instruct-1xgpu-predictor-00001-deployment-5b589fhldd4   1/4     Running   0          9s
+llama3-8b-instruct-1xgpu-predictor-00001-deployment-5b589fpn92t   4/4     Running   0          5m49s
 ```
 
 ```shell
