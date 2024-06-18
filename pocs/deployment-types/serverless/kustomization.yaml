@@ -1,6 +1,6 @@
 kind: Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
-namespace: kserve-playground-serverless
+namespace: kserve-play-serverless
 
 resources:
 - namespace.yaml

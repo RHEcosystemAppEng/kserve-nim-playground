@@ -2,14 +2,14 @@
 
 ```shell
 # OPTIONAL: set your namespace for testing
-(cd pocs/persistence-and-caching/knative-pvc && kustomize edit set namespace kserve-nim-playground-knative-pvc)
+(cd pocs/persistence-and-caching/knative-pvc && kustomize edit set namespace knim-knative-pvc)
 ```
 
 ```shell
 # apply the required resources
 $ k apply -k pocs/persistence-and-caching/knative-pvc
 
-namespace/kserve-nim-playground-knative-pvc created
+namespace/knim-knative-pvc created
 secret/ngc-secret created
 secret/nvidia-nim-secrets created
 persistentvolumeclaim/nim-pvc created
@@ -19,14 +19,14 @@ inferenceservice.serving.kserve.io/llama3-8b-instruct-1xgpu created
 
 ```shell
 # wait for the service to be ready; this might take a couple of minutes
-$ k wait inferenceservices -n kserve-nim-playground-knative-pvc llama3-8b-instruct-1xgpu --for condition=Ready --timeout 200s
+$ k wait inferenceservices -n knim-knative-pvc llama3-8b-instruct-1xgpu --for condition=Ready --timeout 200s
 
 inferenceservice.serving.kserve.io/llama3-8b-instruct-1xgpu condition met
 ```
 
 ```shell
 # grab the name of the pod created
-$ k get pods -n kserve-nim-playground-knative-pvc
+$ k get pods -n knim-knative-pvc
 
 NAME                                                              READY   STATUS    RESTARTS   AGE
 llama3-8b-instruct-1xgpu-predictor-00001-deployment-5b589fpn92t   3/3     Running   0          3m56s
@@ -35,14 +35,14 @@ llama3-8b-instruct-1xgpu-predictor-00001-deployment-5b589fpn92t   3/3     Runnin
 ```shell
 # check the download time; don't forget to use the correct pod name from your environment
 $ pod=llama3-8b-instruct-1xgpu-predictor-00001-deployment-5b589fpn92t && \
-k logs -n kserve-nim-playground-knative-pvc $pod kserve-container | grep 'Model workspace is now ready'
+k logs -n knim-knative-pvc $pod kserve-container | grep 'Model workspace is now ready'
 
 INFO 06-13 22:42:10.42 ngc_injector.py:172] Model workspace is now ready. It took 72.474 seconds
 ```
 
 ```shell
 # test using NIM API to get a list of the existing models and their attributes
-$ runtimeurl=$(k get inferenceservices -n kserve-nim-playground-knative-pvc llama3-8b-instruct-1xgpu -o yaml | yq '.status.url') && \
+$ runtimeurl=$(k get inferenceservices -n knim-knative-pvc llama3-8b-instruct-1xgpu -o yaml | yq '.status.url') && \
 curl -sk $runtimeurl/v1/models | jq
 
 {
@@ -64,7 +64,7 @@ curl -sk $runtimeurl/v1/models | jq
 
 ```shell
 # test using NIM API to interact with the underlying model
-$ runtimeurl=$(k get inferenceservices -n kserve-nim-playground-knative-pvc llama3-8b-instruct-1xgpu -o yaml | yq '.status.url') && \
+$ runtimeurl=$(k get inferenceservices -n knim-knative-pvc llama3-8b-instruct-1xgpu -o yaml | yq '.status.url') && \
 curl -sk $runtimeurl/v1/chat/completions -H "Content-Type: application/json" -d \
 '{
   "model": "meta/llama3-8b-instruct",
@@ -96,7 +96,7 @@ curl -sk $runtimeurl/v1/chat/completions -H "Content-Type: application/json" -d 
 
 ```shell
 # verify only one replica is scheduled currently
-$ k get kpa -n kserve-nim-playground-knative-pvc llama3-8b-instruct-1xgpu-predictor-00001 -o yaml | yq '.status' | yq '. |= pick(["actualScale", "desiredScale"])'
+$ k get kpa -n knim-knative-pvc llama3-8b-instruct-1xgpu-predictor-00001 -o yaml | yq '.status' | yq '. |= pick(["actualScale", "desiredScale"])'
 
 actualScale: 1
 desiredScale: 1
@@ -104,7 +104,7 @@ desiredScale: 1
 
 ```shell
 # trigger a scale-up of the pods by sending multiple interaction requests simultaneously
-runtimeurl=$(k get inferenceservices -n kserve-nim-playground-knative-pvc llama3-8b-instruct-1xgpu -o yaml | yq '.status.url') && \
+runtimeurl=$(k get inferenceservices -n knim-knative-pvc llama3-8b-instruct-1xgpu -o yaml | yq '.status.url') && \
 for i in {1..15}; do curl -sk $runtimeurl/v1/chat/completions -H "Content-Type: application/json" -d \
 '{
   "model": "meta/llama3-8b-instruct",
@@ -118,7 +118,7 @@ for i in {1..15}; do curl -sk $runtimeurl/v1/chat/completions -H "Content-Type: 
 
 ```shell
 # verify a second replica is requested by the KNative
-$ k get kpa -n kserve-nim-playground-knative-pvc llama3-8b-instruct-1xgpu-predictor-00001 -o yaml | yq '.status' | yq '. |= pick(["actualScale", "desiredScale"])'
+$ k get kpa -n knim-knative-pvc llama3-8b-instruct-1xgpu-predictor-00001 -o yaml | yq '.status' | yq '. |= pick(["actualScale", "desiredScale"])'
 
 actualScale: 1
 desiredScale: 2
@@ -126,7 +126,7 @@ desiredScale: 2
 
 ```shell
 # grab the name of the new pod created based on the age
-$ k get pods -n kserve-nim-playground-knative-pvc
+$ k get pods -n knim-knative-pvc
 
 NAME                                                              READY   STATUS    RESTARTS   AGE
 llama3-8b-instruct-1xgpu-predictor-00001-deployment-5b589fhldd4   1/3     Running   0          9s
@@ -136,7 +136,7 @@ llama3-8b-instruct-1xgpu-predictor-00001-deployment-5b589fpn92t   3/3     Runnin
 ```shell
 # check the download time in the SECOND pod; don't forget to use the correct pod name from your environment
 $ pod=llama3-8b-instruct-1xgpu-predictor-00001-deployment-5b589fhldd4 && \
-k logs -n kserve-nim-playground-knative-pvc $pod kserve-container | grep 'Model workspace is now ready'
+k logs -n knim-knative-pvc $pod kserve-container | grep 'Model workspace is now ready'
 
 INFO 06-13 22:46:26.884 ngc_injector.py:172] Model workspace is now ready. It took 2.318 seconds
 ```
@@ -146,7 +146,7 @@ INFO 06-13 22:46:26.884 ngc_injector.py:172] Model workspace is now ready. It to
 # cleanup - this might take a couple of minutes
 $ k delete -k pocs/persistence-and-caching/knative-pvc
 
-namespace "kserve-nim-playground-knative-pvc" deleted
+namespace "knim-knative-pvc" deleted
 secret "ngc-secret" deleted
 secret "nvidia-nim-secrets" deleted
 persistentvolumeclaim "nim-pvc" deleted
