@@ -3,6 +3,9 @@ apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
   annotations:
+    serving.knative.openshift.io/enablePassthrough: "true"
+    sidecar.istio.io/inject: "true"
+    sidecar.istio.io/rewriteAppHTTPProbers: "true"
     autoscaling.knative.dev/target: "10"
   name: llama3-8b-instruct-1xgpu
   namespace: kserve-nim-playground-knative-pvc
