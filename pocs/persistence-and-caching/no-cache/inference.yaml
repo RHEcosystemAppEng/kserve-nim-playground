@@ -9,6 +9,12 @@ spec:
   predictor:
     maxReplicas: 2
     minReplicas: 0
+    annotations:
+      serving.knative.openshift.io/enablePassthrough: "true"
+      sidecar.istio.io/inject: "true"
+      sidecar.istio.io/rewriteAppHTTPProbers: "true"
+      prometheus.io/port: '8002'
+      prometheus.io/path: /metrics
     model:
       modelFormat:
         name: nvidia-nim-llama3-8b-instruct

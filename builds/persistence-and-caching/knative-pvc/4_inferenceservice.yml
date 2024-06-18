@@ -8,6 +8,12 @@ metadata:
   namespace: kserve-nim-playground-knative-pvc
 spec:
   predictor:
+    annotations:
+      prometheus.io/path: /metrics
+      prometheus.io/port: "8002"
+      serving.knative.openshift.io/enablePassthrough: "true"
+      sidecar.istio.io/inject: "true"
+      sidecar.istio.io/rewriteAppHTTPProbers: "true"
     maxReplicas: 2
     minReplicas: 0
     model:

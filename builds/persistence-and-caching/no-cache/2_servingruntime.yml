@@ -5,11 +5,6 @@ metadata:
   name: nvidia-nim-llama3-8b-instruct-1.0.0
   namespace: kserve-nim-playground-no-cache
 spec:
-  annotations:
-    prometheus.kserve.io/path: /metrics
-    prometheus.kserve.io/port: "8000"
-    serving.kserve.io/enable-metric-aggregation: "true"
-    serving.kserve.io/enable-prometheus-scraping: "true"
   containers:
     - env:
         - name: NIM_CACHE_PATH
