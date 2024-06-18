@@ -8,7 +8,7 @@ metadata:
 spec:
   predictor:
     maxReplicas: 2
-    minReplicas: 0
+    minReplicas: 1
     annotations:
       serving.knative.openshift.io/enablePassthrough: "true"
       sidecar.istio.io/inject: "true"
