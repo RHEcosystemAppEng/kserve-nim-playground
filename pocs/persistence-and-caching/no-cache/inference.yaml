@@ -7,7 +7,6 @@ metadata:
   namespace: ns
 spec:
   predictor:
-    maxReplicas: 2
     minReplicas: 1
     annotations:
       serving.knative.openshift.io/enablePassthrough: "true"

@@ -37,10 +37,7 @@ spec:
     - v2
     - grpc-v2
   supportedModelFormats:
-    - autoSelect: true
-      name: nvidia-nim-llama3-8b-instruct
-      priority: 1
-      version: "24.05"
+    - name: nvidia-nim-llama3-8b-instruct
   volumes:
     - emptyDir:
         medium: Memory

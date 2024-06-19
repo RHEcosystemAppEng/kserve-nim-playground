@@ -14,7 +14,6 @@ spec:
       serving.knative.openshift.io/enablePassthrough: "true"
       sidecar.istio.io/inject: "true"
       sidecar.istio.io/rewriteAppHTTPProbers: "true"
-    maxReplicas: 2
     minReplicas: 1
     model:
       modelFormat:
