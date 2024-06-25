@@ -1,5 +1,7 @@
 # Knative PVC Feature
 
+If you landed here, make sure to follow the [Knative PVC Feature section](../../../README.md#knative-pvc-feature).
+
 ```shell
 # OPTIONAL: set your namespace for testing
 (cd pocs/persistence-and-caching/knative-pvc && kustomize edit set namespace knim-knative-pvc)

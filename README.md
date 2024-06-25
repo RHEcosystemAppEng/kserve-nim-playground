@@ -95,7 +95,7 @@ be reflected in scaling time.
 #### Knative PVC Feature
 
 In this scenario, [Nvidia NIM][nim] is in charge of downloading the required models; the download
-target is a PVC. Using writable PVCs with [Knative][knative] requires manual enablement of the
+target is a PVC. Using writable PVCs with [Knative][knative] requires enablement of the
 [PCV support feature][knative-pvc]. Look for the _ConfigMap_ named _config-features_ in the
 _knative-serving_ namespace and enable the following flags:
 
