@@ -120,7 +120,7 @@ kubernetes.podspec-persistent-volume-write: "enabled"
 #### Kserve Raw NIM Deployment
 
 In this scenario, [Nvidia NIM][nim] is in charge of downloading the required models; the download
-target is a PVC. Using writable PVCs with [Kserve][kserve] Raw _Deployment_.
+target is a PVC. Using writable PVCs is applicable with [Kserve][kserve]'s _Raw Deployment_.
 
 |                  |                                                      |
 |------------------|------------------------------------------------------|
@@ -138,13 +138,11 @@ target is a PVC. Using writable PVCs with [Kserve][kserve] Raw _Deployment_.
 - We set the _NIM_CACHE_PATH_ environment variable is set to above-mentioned _/mnt/nim/models_.
 - Annotating the _InferenceService_ with `serving.kserve.io/deploymentMode: RawDeployment` triggers
   a _Raw Deployment_.
-- Adding _maxReplicas_ for the _Predictor_ is required for using HPA.
-
-
-
+- We added _maxReplicas_ for the _Predictor_, which is required for using [HPA][hpa].
 
 [aoi]: https://www.redhat.com/en/technologies/cloud-computing/openshift/openshift-ai
 [emptydir]: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir
+[hpa]: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
 [knative]: https://knative.dev/docs/
 [knative-pvc]: https://knative.dev/docs/serving/configuration/feature-flags/#kubernetes-persistentvolumeclaim-pvc
 [kserve]: https://kserve.github.io/website/latest/
