@@ -1,0 +1,33 @@
+---
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  annotations:
+    serving.kserve.io/deploymentMode: RawDeployment
+  name: llama3-8b-instruct-1xgpu
+  namespace: knim-raw-pvc
+spec:
+  predictor:
+    annotations:
+      prometheus.io/path: /metrics
+      prometheus.io/port: "8002"
+    maxReplicas: 3
+    minReplicas: 1
+    model:
+      modelFormat:
+        name: nvidia-nim-llama3-8b-instruct
+      resources:
+        limits:
+          nvidia.com/gpu: "1"
+        requests:
+          nvidia.com/gpu: "1"
+      runtime: nvidia-nim-llama3-8b-instruct-1.0.0
+    nodeSelector:
+      node.kubernetes.io/instance-type: p4d.24xlarge
+    tolerations:
+      - effect: NoSchedule
+        key: nvidia.com/gpu
+        operator: Exists
+      - effect: NoSchedule
+        key: odh-notebook
+        operator: Exists

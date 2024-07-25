@@ -95,9 +95,7 @@ be reflected in scaling time.
 #### Knative PVC Feature
 
 In this scenario, [Nvidia NIM][nim] is in charge of downloading the required models; the download
-target is a PVC. Using writable PVCs with [Knative][knative] requires enablement of the
-[PCV support feature][knative-pvc]. Look for the _ConfigMap_ named _config-features_ in the
-_knative-serving_ namespace and enable the following flags:
+target is a PVC.
 
 ```yaml
 kubernetes.podspec-persistent-volume-claim: "enabled"
@@ -118,6 +116,32 @@ kubernetes.podspec-persistent-volume-write: "enabled"
 - We added a _VolumeMount_ to the _ServingRuntime_ mounting the above-mentioned _Volume_ to
   _/mnt/nim/models_.
 - We set the _NIM_CACHE_PATH_ environment variable is set to above-mentioned _/mnt/nim/models_.
+
+#### Kserve Raw NIM Deployment
+
+In this scenario, [Nvidia NIM][nim] is in charge of downloading the required models; the download
+target is a PVC. Using writable PVCs with [Kserve][kserve] Raw _Deployment_.
+
+|                  |                                                      |
+|------------------|------------------------------------------------------|
+| Model Used       | _nvidia-nim-llama3-8b-instruct_                      |
+| POC Instructions | [Click here](pocs/persistence-and-caching/raw-pvc)   |
+| Built Manifests  | [Click here](builds/persistence-and-caching/raw-pvc) |
+
+**Key Takeaways**
+
+- The _storageUri_ specification from the _InferenceService_ is NOT required.
+- We added a _PVC_ setting the storage class to OpenShift's default _gp3-csi_.
+- We added a _Volume_ to the _ServingRuntime_ connected to the above-mentioned _PVC_.
+- We added a _VolumeMount_ to the _ServingRuntime_ mounting the above-mentioned _Volume_ to
+  _/mnt/nim/models_.
+- We set the _NIM_CACHE_PATH_ environment variable is set to above-mentioned _/mnt/nim/models_.
+- Annotating the _InferenceService_ with `serving.kserve.io/deploymentMode: RawDeployment` triggers
+  a _Raw Deployment_.
+- Adding _maxReplicas_ for the _Predictor_ is required for using HPA.
+
+
+
 
 [aoi]: https://www.redhat.com/en/technologies/cloud-computing/openshift/openshift-ai
 [emptydir]: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir

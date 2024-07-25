@@ -1,0 +1,34 @@
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+namespace: knim-raw-pvc
+
+resources:
+- ../knative-pvc
+
+patches:
+- patch: |
+    # setting Kserve to run a Raw deployment
+    - op: add
+      path: /metadata/annotations
+      value:
+        serving.kserve.io/deploymentMode: RawDeployment
+    # removing unused annotations, not required for raw deployments
+    - op: remove
+      path: /spec/predictor/annotations/serving.knative.openshift.io~1enablePassthrough
+    - op: remove
+      path: /spec/predictor/annotations/sidecar.istio.io~1inject
+    - op: remove
+      path: /spec/predictor/annotations/sidecar.istio.io~1rewriteAppHTTPProbers
+    # setting maximum allowed replicas is required for HPA
+    - op: add
+      path: /spec/predictor/maxReplicas
+      value: 3
+    # the following are used for making the HPA scale up for 1% CPU utilization for the POC
+#    - op: add
+#      path: /spec/predictor/scaleMetric
+#      value: cpu
+#    - op: add
+#      path: /spec/predictor/scaleTarget
+#      value: 1
+  target:
+    kind: InferenceService
