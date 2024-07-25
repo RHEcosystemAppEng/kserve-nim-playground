@@ -1,4 +1,4 @@
-# Raw PVC Feature Knative Passthrough
+# Raw PVC Feature
 
 ```shell
 # OPTIONAL: set your namespace for testing
