@@ -1,0 +1,5 @@
+ARG MODELS_DIR=models
+ARG MODEL_NAME
+FROM busybox
+RUN mkdir /models && chmod 775 /models
+COPY ./$MODELS_DIR/$MODEL_NAME /models

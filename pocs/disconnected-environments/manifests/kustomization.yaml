@@ -1,0 +1,35 @@
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+namespace: nim-raw-modelcar
+
+# ngc.env has a key NGC_API_KEY
+# ngcdockerconfig.json has the ngc-api-key as the password for nvcr.io
+secretGenerator:
+- envs:
+  - ngc.env
+  name: nvidia-nim-secrets
+  options:
+    disableNameSuffixHash: true
+- files:
+  - .dockerconfigjson=ngcdockerconfig.json
+  name: ngc-secret
+  options:
+    disableNameSuffixHash: true
+  type: kubernetes.io/dockerconfigjson
+
+resources:
+- namespace.yaml
+- runtime.yaml
+- inference.yaml
+
+patches:
+  - patch: |
+      # the following are used for making the HPA scale up for 1% CPU utilization for the POC
+      - op: add
+        path: /spec/predictor/scaleMetric
+        value: cpu
+      - op: add
+        path: /spec/predictor/scaleTarget
+        value: 2
+    target:
+      kind: InferenceService

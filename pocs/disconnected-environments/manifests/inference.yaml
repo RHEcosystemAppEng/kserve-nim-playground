@@ -1,0 +1,35 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  annotations:
+    serving.kserve.io/deploymentMode: RawDeployment
+  name: llama3-8b-instruct-1xgpu
+  namespace: ns
+spec:
+  predictor:
+    minReplicas: 1
+    maxReplicas: 3
+    annotations:
+      prometheus.io/port: '8002'
+      prometheus.io/path: /metrics
+    model:
+      modelFormat:
+        name: nvidia-nim-llama3-8b-instruct
+      resources:
+        limits:
+          nvidia.com/gpu: "1"
+        requests:
+          nvidia.com/gpu: "1"
+      runtime: nvidia-nim-llama3-8b-instruct-1.0.0
+      storageUri: oci://quay.io/ecosystem-appeng/llama3-8b-instruct_vhf:dev2
+#      storageUri: oci://quay.io/xiezhang7/nim-meta-llama3-8b-instruct:v1.0.0
+    nodeSelector:
+      node.kubernetes.io/instance-type: p4d.24xlarge
+    tolerations:
+      - effect: NoSchedule
+        key: nvidia.com/gpu
+        operator: Exists
+      - effect: NoSchedule
+        key: odh-notebook
+        operator: Exists
+
