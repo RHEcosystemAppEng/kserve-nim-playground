@@ -10,7 +10,7 @@ spec:
   predictor:
     annotations:
       prometheus.io/path: /metrics
-      prometheus.io/port: "8002"
+      prometheus.io/port: "8000"
     maxReplicas: 3
     minReplicas: 1
     model:

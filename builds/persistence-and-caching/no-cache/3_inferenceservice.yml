@@ -10,7 +10,7 @@ spec:
   predictor:
     annotations:
       prometheus.io/path: /metrics
-      prometheus.io/port: "8002"
+      prometheus.io/port: "8000"
       serving.knative.openshift.io/enablePassthrough: "true"
       sidecar.istio.io/inject: "true"
       sidecar.istio.io/rewriteAppHTTPProbers: "true"
