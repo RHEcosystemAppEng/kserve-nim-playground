@@ -3,4 +3,4 @@
 *ngcdockerconfig.json
 *temp/
 tokens
-*/models/*
+**/models/*
